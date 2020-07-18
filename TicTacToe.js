@@ -15,7 +15,11 @@ export class TicTacToe {
     [2, 4, 6],
   ];
   statusDisplay = document.querySelector(".game-status");
-  socket = io("ws://localhost:3000");
+  socket = io(
+    location.hostname === "localhost"
+      ? "ws://localhost:3000"
+      : "wss://tictactoe-realtime.herokuapp.com"
+  );
 
   // TODO: pass in arguments like: socket, elements, etc...
   constructor() {
