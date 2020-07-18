@@ -1,5 +1,6 @@
 import "regenerator-runtime/runtime";
 import io from "socket.io-client/dist/socket.io";
+import cssPath from "./cssPath";
 const socket = io("ws://localhost:3000");
 const statusDisplay = document.querySelector(".game-status");
 
@@ -43,9 +44,10 @@ socket.on("gameUpdate", onGameUpdate);
 
 window.emitGameUpdate = emitGameUpdate;
 
-function handleCellPlayed(clickedCell, clickedCellIndex) {
+function handleCellPlayed(clickedCell, clickedCellIndex, isReceived) {
   gameState[clickedCellIndex] = player;
   clickedCell.innerHTML = player;
+  if (isReceived !== true) socket.emit("cellClick", clickedCellIndex);
 }
 
 function playerChange() {
@@ -85,8 +87,7 @@ function handleResultValidation() {
   playerChange();
 }
 
-function handleCellClick(clickedCellEvent) {
-  const clickedCell = clickedCellEvent.target;
+function handleCellClick(clickedCell, isReceived) {
   const clickedCellIndex = parseInt(
     clickedCell.getAttribute("data-cell-index")
   );
@@ -95,21 +96,33 @@ function handleCellClick(clickedCellEvent) {
     return;
   }
 
-  handleCellPlayed(clickedCell, clickedCellIndex);
+  handleCellPlayed(clickedCell, clickedCellIndex, isReceived);
   handleResultValidation();
+  if (isReceived !== true) emitGameUpdate();
 }
 
-function handleRestartGame() {
+socket.on("cellClick", (index) => {
+  const el = document.querySelector(`.cell:nth-child(${index + 1})`);
+  console.log("cellClick received", el, index);
+  handleCellClick(el, true);
+});
+
+function handleRestartGame(isReceived) {
   gameActive = true;
   player = "X";
   gameState = ["", "", "", "", "", "", "", "", ""];
   statusDisplay.innerHTML = currentTurn();
   document.querySelectorAll(".cell").forEach((cell) => (cell.innerHTML = ""));
+  if (isReceived !== true) socket.emit("resetGame");
 }
+
+socket.on("resetGame", () => handleRestartGame(true));
 
 document
   .querySelectorAll(".cell")
-  .forEach((cell) => cell.addEventListener("click", handleCellClick));
+  .forEach((cell) =>
+    cell.addEventListener("click", (event) => handleCellClick(event.target))
+  );
 document
   .querySelector(".game-restart")
   .addEventListener("click", handleRestartGame);

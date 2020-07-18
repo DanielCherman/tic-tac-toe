@@ -1,3 +1,9 @@
+let gameInitalSnapshot = {
+  gameActive: true,
+  player: "X",
+  gameState: ["", "", "", "", "", "", "", "", ""],
+};
+
 let game = {
   gameActive: true,
   player: "X",
@@ -18,9 +24,24 @@ const gameUpdate = (state, playerId) => {
   console.log("gameUpdate", state, playerId);
 };
 
+const cellClick = (index, playerId) => {
+  io.emit("cellClick", index, playerId);
+  console.log("cellClick", index, playerId);
+};
+
+const resetGame = (playerId) => {
+  game = gameInitalSnapshot;
+  io.emit("resetGame", playerId);
+  console.log("resetGame", playerId);
+};
+
 io.on("connection", (socket) => {
   console.log("player connected:", socket.id);
+  resetGame("system");
+  socket.emit("gameUpdate", game);
   socket.on("gameUpdate", (game) => gameUpdate(game, socket.id));
+  socket.on("cellClick", (index) => cellClick(index, socket.id));
+  socket.on("resetGame", () => resetGame(socket.id));
 });
 
 http.listen(3000, () => {
