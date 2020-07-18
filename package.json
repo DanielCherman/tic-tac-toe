@@ -4,10 +4,10 @@
   "main": "backend.js",
   "repository": "git@github.com:DanielCherman/tic-tac-toe.git",
   "scripts": {
-    "start:frontend": "parcel index.html",
+    "start:frontend": "parcel src/index.html",
     "start:backend": "node backend.js",
     "start:dev": "npm-run-all --parallel start:frontend start:backend",
-    "build:frontend": "parcel build index.html",
+    "build:frontend": "parcel build src/index.html",
     "start": "npm run build:frontend && node ."
   },
   "license": "MIT",
