@@ -5,7 +5,7 @@ let player = "X";
 let gameState = ["", "", "", "", "", "", "", "", ""];
 
 const winMessage = () => `Player ${player} has won!`;
-const drawMessage = () => `Game ended in a draw!`;
+const drawMessage = () => `Draw!`;
 const currentTurn = () => `It's ${player}'s turn`;
 
 statusDisplay.innerHTML = currentTurn();
@@ -28,6 +28,7 @@ function handleCellPlayed(clickedCell, clickedCellIndex) {
 
 function playerChange() {
   player = player === "X" ? "O" : "X";
+  
     statusDisplay.innerHTML = currentTurn();
 }
 
@@ -85,3 +86,4 @@ function handleRestartGame() {
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
 document.querySelector('.game-restart').addEventListener('click', handleRestartGame);
+	
