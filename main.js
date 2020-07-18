@@ -9,7 +9,7 @@ window.player = "X";
 window.gameState = ["", "", "", "", "", "", "", "", ""];
 
 const winMessage = () => `Player ${player} has won!`;
-const drawMessage = () => `Game ended in a draw!`;
+const drawMessage = () => `Draw!`;
 const currentTurn = () => `It's ${player}'s turn`;
 
 statusDisplay.innerHTML = currentTurn();
@@ -52,6 +52,7 @@ function handleCellPlayed(clickedCell, clickedCellIndex, isReceived) {
 
 function playerChange() {
   player = player === "X" ? "O" : "X";
+
   statusDisplay.innerHTML = currentTurn();
 }
 
