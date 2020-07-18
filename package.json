@@ -1,0 +1,24 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "main": "backend.js",
+  "repository": "git@github.com:DanielCherman/tic-tac-toe.git",
+  "scripts": {
+    "start:frontend": "parcel index.html",
+    "start:backend": "node backend.js",
+    "start:dev": "npm-run-all --parallel start:frontend start:backend",
+    "build:frontend": "parcel build index.html",
+    "start": "npm run build:frontend && node ."
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "parcel": "^1.12.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
+  }
+}
