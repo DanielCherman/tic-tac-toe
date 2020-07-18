@@ -4,7 +4,7 @@ export class TicTacToe {
   gameActive = true;
   player = "X";
   gameState = ["", "", "", "", "", "", "", "", ""];
-  winningCombonations = [
+  winningCombinations = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -94,7 +94,7 @@ export class TicTacToe {
   handleResultValidation() {
     let roundWon = false;
     for (let i = 0; i <= 7; i++) {
-      const winCombination = this.winningCombonations[i];
+      const winCombination = this.winningCombinations[i];
       let a = this.gameState[winCombination[0]];
       let b = this.gameState[winCombination[1]];
       let c = this.gameState[winCombination[2]];
